@@ -58,12 +58,28 @@ coffee_df = coffee_df.melt(ignore_index=False,col_level=1,var_name='coffee_caraf
 # scores for combinations of different recipes, oven rack positions, 
 # and oven temperatures.
 
+# Read the cake_recipes table
 sql = 'select * from cake_recipes'
 cake_df = pd.read_sql(sql, url)
 
-
 # tidy the data as necc.
-
 cake_df = cake_df.melt(id_vars='recipe:position', var_name='temp', value_name='score')
 cake_df[['recipe','position']] = cake_df['recipe:position'].str.split(':', expand=True)
 cake_df = cake_df.drop(columns='recipe:position')
+
+# Which recipe, on average, is the best?
+cake_df.groupby('recipe').mean()
+print('best average tasty cake:{} {}'.format((cake_df.groupby('recipe').mean().max()),(cake_df.groupby('recipe').mean().idxmax())))
+
+# Which oven temperature, on average, produces the best results?
+cake_df.groupby('temp').mean()
+print('best avg temp for tastiness of cake: {}'.format(cake_df.groupby('temp').mean().idxmax()))
+
+
+# Which combination of recipe, rack position, and temperature gives the best result?
+cake_df.groupby(['temp','recipe','position']).mean().idxmax()
+
+
+
+
+
