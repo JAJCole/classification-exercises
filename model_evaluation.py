@@ -111,9 +111,6 @@ print('Model precision: {:.2%}'.format(model3_precision))
 # PHASE I: recall
 # PHASE II: precision
 
-
-
-
 paws_df = pd.read_csv("https://ds.codeup.com/data/gives_you_paws.csv")
 paws_df
 
@@ -143,11 +140,15 @@ accuracy_df = pd.DataFrame(accuracy_out.items(), columns = ['model', 'accuracy']
 
 # in terms of accuracy, model1 outperforms baseline and peer models
 
+
+
 # q4.
 # q4a.
 # Suppose you are working on a team that solely deals 
 # with dog pictures. Which of these models would you 
 # recommend?
+# Phase I: Automated algorithm tags pictures as either a cat or a dog
+# For phaseI, we should choose a model with highest Recall
 
 # RECALL
 dogs = paws_df[paws_df.actual == 'dog']
@@ -166,12 +167,36 @@ model_list = model_list[1:]
 recall = lambda model_list, paws_df: {model: (paws_df.actual == paws_df[model]).mean() for model in model_list}
 recall_table = recall(model_list, dogs)
 recall_table
-
 # recc. model4 with 95% ID of dogs
+
+
+# Phase II: Photos that have been initially identified are put 
+# through another round of review
+# Precision is the appropriate metric since we are trying to 
+# minimize false positives
+
+# PRECISION
+pos_pred1 = paws_df[paws_df.model1 == 'dog']
+pos_pred2 = paws_df[paws_df.model2 == 'dog']
+pos_pred3 = paws_df[paws_df.model3 == 'dog']
+pos_pred4 = paws_df[paws_df.model4 == 'dog']
+
+#m1
+(pos_pred1.actual == pos_pred1.model1).mean()
+#m2
+(pos_pred2.actual == pos_pred2.model2).mean()
+#m3
+(pos_pred3.actual == pos_pred3.model3).mean()
+#m4
+(pos_pred4.actual == pos_pred4.model4).mean()
+# model2 has highest precision value at 89.3%
+
 
 #q4b.
 # Suppose you are working on a team that solely deals with 
 # cat pictures. Which of these models would you recommend?
+
+# RECALL
 cats = paws_df[paws_df.actual == 'cat']
 #m1
 (cats.actual == cats.model1).mean()
@@ -187,6 +212,24 @@ recall_table2
 
 # recc. model2 with 89% ID of cats
 
+# PRECISION
+pos_pred5 = paws_df[paws_df.model1 == 'cat']
+pos_pred6 = paws_df[paws_df.model2 == 'cat']
+pos_pred7 = paws_df[paws_df.model3 == 'cat']
+pos_pred8 = paws_df[paws_df.model4 == 'cat']
+
+#m1
+(pos_pred5.actual == pos_pred5.model1).mean()
+#m2
+(pos_pred6.actual == pos_pred6.model2).mean()
+#m3
+(pos_pred7.actual == pos_pred7.model3).mean()
+#m4
+(pos_pred8.actual == pos_pred8.model4).mean()
+
+# recc. model4 with 81% precision
+
+
 
 #q5
 # Follow the links below to read the documentation about 
@@ -194,15 +237,32 @@ recall_table2
 # from the previous problem.
 
 #    sklearn.metrics.accuracy_score
+from sklearn.metrics import accuracy_score
 
+#sklearn.metrics.accuracy_score(y_true, y_pred, *, normalize=True, sample_weight=None)
+
+y_true = paws_df['actual']
+y_pred = paws_df['model1']
+accuracy_score(y_true, y_pred)
+
+y_pred2 = paws_df['model2']
+accuracy_score(y_true, y_pred2)
+
+y_pred3 = paws_df['model3']
+accuracy_score(y_true, y_pred3)
+
+y_pred4 = paws_df['model4']
+accuracy_score(y_true, y_pred4)
 
 #    sklearn.metrics.precision_score
+sklearn.metrics.precision_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
 
 
 #    sklearn.metrics.recall_score
+sklearn.metrics.recall_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
 
 
 #    sklearn.metrics.classification_report
-
+sklearn.metrics.classification_report(y_true, y_pred, *, labels=None, target_names=None, sample_weight=None, digits=2, output_dict=False, zero_division='warn')
 
 
