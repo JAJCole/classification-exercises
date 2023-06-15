@@ -255,14 +255,64 @@ y_pred4 = paws_df['model4']
 accuracy_score(y_true, y_pred4)
 
 #    sklearn.metrics.precision_score
-sklearn.metrics.precision_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
+from sklearn.metrics import precision_score
+#sklearn.metrics.precision_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
+
+#m1
+y_true = paws_df['actual']
+y_pred5 = paws_df['model1']
+precision_score(y_true, y_pred5, pos_label='cat')
+#m2
+y_pred6 = paws_df['model2']
+precision_score(y_true, y_pred6, pos_label='cat')
+#m3
+y_pred7 = paws_df['model3']
+precision_score(y_true, y_pred7, pos_label='cat')
+#m4
+y_pred8 = paws_df['model4']
+precision_score(y_true, y_pred8, pos_label='cat')
 
 
 #    sklearn.metrics.recall_score
-sklearn.metrics.recall_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
+from sklearn.metrics import recall_score
+#sklearn.metrics.recall_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
+#m1
+y_true = paws_df['actual']
+y_pred9 = paws_df['model1']
+recall_score(y_true, y_pred9, pos_label = 'cat')
+#m2
+y_pred10 = paws_df['model2']
+recall_score(y_true, y_pred10, pos_label = 'cat')
+#m3
+y_pred11 = paws_df['model3']
+recall_score(y_true, y_pred11, pos_label = 'cat')
+#m4
+y_pred12 = paws_df['model4']
+recall_score(y_true, y_pred12, pos_label = 'cat')
 
 
 #    sklearn.metrics.classification_report
-sklearn.metrics.classification_report(y_true, y_pred, *, labels=None, target_names=None, sample_weight=None, digits=2, output_dict=False, zero_division='warn')
+from sklearn.metrics import classification_report
+#sklearn.metrics.classification_report(y_true, y_pred, *, labels=None, target_names=None, sample_weight=None, digits=2, output_dict=False, zero_division='warn')
+#m1
+y_true = paws_df['actual']
+y_pred13 = paws_df['model1']
+classification_report(y_true, y_pred13,labels = ['cat', 'dog'],output_dict=True).T
 
 
+print('m1')
+print(pd.DataFrame(classification_report(y_true, paws_df.model1,
+                                   labels = ['cat', 'dog'],
+                                   output_dict=True)).T)
+print('\nm2')
+print(pd.DataFrame(classification_report(y_true, paws_df.model2,
+                                   labels = ['cat', 'dog'],
+                                   output_dict=True)).T)
+print('\nm3')
+print(pd.DataFrame(classification_report(y_true, paws_df.model3,
+                                   labels = ['cat', 'dog'],
+                                   output_dict=True)).T)
+print('\nm4')
+print(pd.DataFrame(classification_report(y_true, paws_df.model4,
+                                   labels = ['cat', 'dog'],
+                                   output_dict=True)).T)
